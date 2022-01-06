@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <link rel="stylesheet" href="style.css">
+  <style>
+   p {
+    margin: 1.5em 0;
+  padding: 0 5px;
+  width: 90px;
+  height: 90px;
+  line-height: 90px;
+  text-align: center;
+  color: #FFF;
+  font-size: 20px;
+  font-weight: bold;
+  background: #a4eb84;
+  border-radius: 50%;
+  box-sizing: border-box;
+  }
+
+
+  </style>  
+<meta charset="utf-8">
+<title>お問合せフォーム</title>
+</head>
+<body class="container">
+
+<!-- コンテンツ表示画面 -->
+
+  <div class="chat-area">     
+          <p id="output"></p>
+    </div> 
+    
+    
+  <!--<div id="output"></div>-->
+   <!-- <div> 名前：<input type="text" id="uname"> </div>-->
+    <div class="message-area">
+      
+        <textarea  class="message-area-text" id="text"></textarea>
+        <button class="message-area-button" id="send">送信</button>
+    </div>
+   
+</div>
+<!--/ コンテンツ表示画面 
+
+<div id="a1"> ChatApp </div>　-->
+
+<!-- JQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- JQuery -->
+
+
+<!--** 以下Firebase **-->
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js";
+    import { getDatabase, ref, push, set, onChildAdded, remove, onChildRemoved } 
+    from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBQ_OR2dJrmD7sDyUfSU8RdPUeJDcbrrJ4",
+      authDomain: "chat-d20d6.firebaseapp.com",
+      projectId: "chat-d20d6",
+      storageBucket: "chat-d20d6.appspot.com",
+      messagingSenderId: "40846957613",
+      appId: "1:40846957613:web:a3a8ad200f8631c5bcaca4"
+    };
+  
+    // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app); // データベースへの接続
+  const dbRef = ref(db, "chat"); // どのデータベースを参照するか
+
+  $("#send").on("click", function(){
+      //オブジェクトの記述
+  
+    //const uname = $("#uname").val();
+    //const text = $("#text").val();
+    //alert('ok');
+    //alert(uname + text);
+
+    const msg = {
+        // uname: $("#uname").val(),
+        text: $("#text").val()
+        
+    }
+    const newPostRef = push(dbRef); //pushしてデータベースに値をセットしている
+    set(newPostRef, msg)//データを取得
+    text: $("#text").val("")
+  });4
+
+
+  onChildAdded(dbRef, function(data){
+      const msg = data.val();//データとってきたい時はこの書き方と覚える
+      //{ uname: "hoge" , text: "hoge" }
+      const key = data.key;
+      let h = '<p>';
+        // h += msg.uname;
+        // h += '<br>';
+        h += msg.text;
+        h += '</p>';
+        $("#output").append(h); //#outputの最後に追加
+
+  }); 
+
+
+
+// $("#send").on("click", function(){
+//   $("#message-area-text").empty();
+// });
+
+
+  // const a1 = document.querySelector("#a1")
+  // a1.style.color="#ff0000";
+  // a1.style.fontSize="64px";
+// 値を渡すと上書きされる
+
+
+  </script>
+
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
